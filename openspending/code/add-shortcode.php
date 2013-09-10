@@ -93,7 +93,7 @@
       tinyMCEPopup.editor.execCommand('mceInsertContent', false,
         ['[openspending type="', visualisation,
          '" dataset="',dataset,
-         '" drilldown="', drilldowns.join(','),
+         '" drilldowns="', drilldowns.join(','),
          '"]'
         ].join('') );
 
