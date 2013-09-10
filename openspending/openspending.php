@@ -49,6 +49,8 @@ class OpenSpending {
         // Add triggers to register scripts and print them
         add_action('init', array(__CLASS__, 'register_style_and_script'));
         add_action('wp_footer', array(__CLASS__, 'print_style_and_script'));
+
+        add_action('init', array(__CLASS__, 'add_mce_button'));
     }
     
     // Function called when the shortcode is found in a post/page
@@ -97,6 +99,29 @@ class OpenSpending {
         // and apply the stylesheet
         wp_print_styles('openspending');
         wp_print_scripts('openspending');
+    }
+
+    static function add_mce_button() {
+        if ( ! current_user_can('edit_posts') && 
+             ! current_user_can('edit_pages') ) {
+            return;
+        }
+ 
+        if ( get_user_option('rich_editing') == 'true' ) {
+            add_filter( 'mce_external_plugins', array(__CLASS__,'add_plugin'));
+            add_filter( 'mce_buttons', array(__CLASS__,'register_button'));
+        }
+    }
+
+
+    static function register_button( $buttons ) {
+        array_push( $buttons, "", "openspending" );
+        return $buttons;
+    }
+
+    static function add_plugin( $plugin_array ) {
+        $plugin_array['openspending'] = plugins_url('openspending/js/openspending-mce.js');
+        return $plugin_array;
     }
 }
 

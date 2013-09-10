@@ -1,0 +1,43 @@
+body {
+    min-width: 0;
+    height: auto;
+}
+
+span.type {
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+span.url {
+    color: #999999;
+    margin-left: -1px;
+}
+
+#dimensions, #chosen-dimensions {
+    margin-bottom: 4px;
+}
+
+span.dimension-label {
+    background: #dddddd;
+    padding: 2px;
+    margin: 2px;
+}
+
+input[name="drilldown"] {
+    display: none;
+}
+
+a.delete {
+    color: #999999;
+    text-decoration: none;
+    font-size: 102%;
+    font-weight: bold;
+}
+
+span.chosen-dimension:after {
+ content: " → ";
+}
+span.chosen-dimension:last-child:after {
+ content: ""; 
+}
