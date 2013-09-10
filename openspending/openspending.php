@@ -52,7 +52,7 @@ class OpenSpending {
 
         add_action('init', array(__CLASS__, 'add_mce_button'));
     }
-    
+
     // Function called when the shortcode is found in a post/page
     static function add_visualisation($atts) {
         // Extract the attributes for the shortcode
@@ -71,7 +71,7 @@ class OpenSpending {
 
         return "<div class=\"{$type}\" " .
                "data-dataset=\"{$dataset}\" " .
-               "dataset-drilldowns=\"{$drilldowns}\" >" .
+               "data-drilldowns=\"{$drilldowns}\" >" .
                "</div>";
     }
 
@@ -102,11 +102,11 @@ class OpenSpending {
     }
 
     static function add_mce_button() {
-        if ( ! current_user_can('edit_posts') && 
+        if ( ! current_user_can('edit_posts') &&
              ! current_user_can('edit_pages') ) {
             return;
         }
- 
+
         if ( get_user_option('rich_editing') == 'true' ) {
             add_filter( 'mce_external_plugins', array(__CLASS__,'add_plugin'));
             add_filter( 'mce_buttons', array(__CLASS__,'register_button'));
