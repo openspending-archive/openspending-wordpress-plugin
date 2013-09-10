@@ -1,0 +1,10 @@
+# v0.2
+
+* OpenSpending button added to the WordPress editor
+* User interface to create the shortcode with attributes
+
+# v0.1
+
+* Initial release!
+* Possibility to add shortcode [openspending] to posts/pages
+* Shortcode attributes must be type, dataset, and drilldowns
