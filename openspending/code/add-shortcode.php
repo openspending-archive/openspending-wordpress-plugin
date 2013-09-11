@@ -180,7 +180,7 @@
           // The real input of the form (we could use something simpler but
           // since we need something to hold the value, why not the proper
           // one)?
-          var $input = $(['<input name="drilldown" type="text" value="',
+          var $input = $(['<input name="drilldown" type="hidden" value="',
                           $dimension.attr('data-dimension'),
                           '">'].join(''));
 

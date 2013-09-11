@@ -31,10 +31,6 @@ span.dimension-label, a.possible-year.chosen {
     margin: 2px;
 }
 
-input[name="drilldown"] {
-    display: none;
-}
-
 a.delete {
     color: #999999;
     text-decoration: none;
