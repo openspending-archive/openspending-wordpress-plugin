@@ -52,7 +52,7 @@
     <input id="dataset" name="dataset" type="text" value="" placeholder="ukgov-25k-spending" />
   </p>
   <p id="drilldowns">
-    <label for="drilldowns">Drilldowns:</label><br/>
+    <label for="drilldowns">Drilldowns</label><br/>
     <a class="button button-disabled" href="#" id="fetch-drilldowns">Fetch possible drilldowns</a>
     <div id="dimensions"></div>
 
@@ -61,7 +61,7 @@
   </p>
 
   <p>
-    <label for="year">Year (optional):</label><br/>
+    <label for="year">Year <small>(optional)</small></label><br/>
     <a class="button button-disabled" href="#" id="fetch-years">Fetch available years</a>
     <div id="years"></div>
     <input id="year" type="hidden" name="year" value=""/>

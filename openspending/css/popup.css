@@ -14,6 +14,11 @@ span.url {
     margin-left: -1px;
 }
 
+label small {
+    color: #999999;
+    font-style: italic;
+}
+
 #dimensions, #chosen-dimensions, #years {
     margin-bottom: 4px;
 }
