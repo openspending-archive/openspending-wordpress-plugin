@@ -77,6 +77,11 @@ class OpenSpending {
         if ( $year != null)
             $div_open .= " data-year=\"{$year}\"";
 
+        if ( $type == 'bubbletree' )
+            $div_open .= " data-icons-path=\"".
+                         plugins_url('openspending/svg/') .
+                         "\"";
+
         return $div_open . "></div>";
     }
 

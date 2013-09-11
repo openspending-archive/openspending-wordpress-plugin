@@ -45,6 +45,10 @@
         <img src="../img/treemap-icon.png"><br>
         <label for="type">Treemap <input type="radio" name="type" value="treemap" checked></label>
     </span>
+    <span class="type">
+        <img src="../img/bubbletree-icon.png"><br>
+        <label for="type">Bubbletree <input type="radio" name="type" value="bubbletree"></label>
+    </span>
   </p>
   <p>
     <label for="dataset">Dataset:</label>
