@@ -59,6 +59,13 @@
     <label for="dimension" id="dimension-label" style="display:none;">Chosen drilldowns:</label><br/>
     <div id="chosen-dimensions"></div>
   </p>
+
+  <p>
+    <label for="year">Year (optional):</label><br/>
+    <a class="button button-disabled" href="#" id="fetch-years">Fetch available years</a>
+    <div id="years"></div>
+    <input id="year" type="hidden" name="year" value=""/>
+  </p>
   <hr/>
   <p>
     <a id="add-visualisation" class="button button-primary button-large button-primary-disabled" href="#">
@@ -89,30 +96,38 @@
       if (drilldowns.length === 0)
         return false;
 
+      var year = $('#year').val();
+
+      var shortcode_attrs = [' type="', visualisation, '"',
+                             ' dataset="', dataset, '"',
+                             ' drilldowns="', drilldowns.join(','), '"',
+                            ];
+      if (year !== '') {
+        shortcode_attrs.push(' year="'+year+'"');
+      }
+
       // Since we have everything we add the shortcode to page/post
       tinyMCEPopup.editor.execCommand('mceInsertContent', false,
-        ['[openspending type="', visualisation,
-         '" dataset="',dataset,
-         '" drilldowns="', drilldowns.join(','),
-         '"]'
-        ].join('') );
+        '[openspending'+shortcode_attrs.join('')+']');
 
       // Close the popup
       tinyMCEPopup.close();
       return false;
     });
 
-    // Fetch drilldowns button plays a big part so we'll just search for it once
-    var $fetcher = $('#fetch-drilldowns');
+    // Fetch buttons play a big part so we'll just search for them once
+    var $drilldown_fetcher = $('#fetch-drilldowns');
+    var $year_fetcher = $('#fetch-years');
 
     // When a user presses a key in dataset we activate the fetch drilldown
     // button since the user is now able to fetch drilldowns
     $('#dataset').keypress(function(e) {
-        $fetcher.removeClass('button-disabled');
+        $drilldown_fetcher.removeClass('button-disabled');
+        $year_fetcher.removeClass('button-disabled');
     });
 
     // When a user clicks the button to fetch drilldowns a lot of stuff happens
-    $fetcher.click(function(e) {
+    $drilldown_fetcher.click(function(e) {
       // We add a spinner/loading gif to dimensions (to show we're working)
       var $dimensions = $('#dimensions');
       $dimensions.html('<img src="<?php echo includes_url('images/wpspin.gif'); ?>">');
@@ -130,7 +145,7 @@
         $.getJSON('http://openspending.org/'+dataset+'/dimensions.json')
           .done(function(data) { // Successful fetching
              // Disable the fetching button (it's been used)
-            $fetcher.addClass('button-disabled');
+            $drilldown_fetcher.addClass('button-disabled');
               // Create an array of possible dimensions and fill it with
               // Dimension links (a tags). The links store the key itself
               // in a data attribute
@@ -195,6 +210,78 @@
           return false;
         });
       }
+      return false;
+    });
+
+    // When a user clicks the button to fetch years we populate the field
+    $year_fetcher.click(function(e) {
+      // We add a spinner/loading gif to years (to show we're working)
+      var $years = $('#years');
+      $years.html('<img src="<?php echo includes_url('images/wpspin.gif'); ?>">');
+
+      // Get the dataset, if the dataset field is empty (for example if the user
+      // pressed the deactivated button) we tell the user, no dataset was
+      // supplied
+      var dataset = $('#dataset').val();
+      if (dataset === '') {
+        $years.text('No dataset supplied');
+      }
+      else {
+        // Get the dimension via a specific call to openspending.org
+        $.getJSON('http://openspending.org/'+dataset+'/time.distinct')
+          .done(function(data) { // Successful fetching
+            // Disable the fetching button (it's been used)
+            $year_fetcher.addClass('button-disabled');
+            // Create an array of possible years and fill it with
+            // Year links (a tags).
+            var possible_years = [];
+            // Since the data can have many dates per year and we're only
+            // interested in the year, we create a "set" (object) to hold
+            // the years (years are found in year element of each obj
+            // in the data.results)
+            var year_data = {};
+            $.each(data.results, function(idx, time) {
+              year_data[time.year] = true;
+            });
+
+            // Now we can loop through the keys of year_data to get the
+            // unique years
+            $.each(year_data, function(year, value) {
+              var year_link = ['<a href="#" class="possible-year">',
+                               year, '</a>'];
+              possible_years.push(year_link.join(''));
+            });
+
+              // Add the possible dimensions along with a header to the page
+              $years.append('Click on the year to use<br/>');
+              $years.html(possible_years.join(' '));
+            })
+            .fail(function() { // Something went boo boo!
+              // Let the user know
+              $years.text('Could not fetch years for the dataset');
+            });
+      }
+      $('.possible-year').live('click', function(e) {
+        var $year = $(this);
+        // Unselect if previously chosen
+        if ($year.hasClass('chosen')) {
+          // Not chosen anymore
+          $year.removeClass('chosen');
+          // Reset the value
+          $('input[name="year"]').val('')
+        }
+        // Select this year
+        else {
+          // Unselect other years
+          $('.possible-year').removeClass('chosen');
+          // Select this one and use its value
+          $year.addClass('chosen');
+          $('input[name="year"]').val($year.text());
+        }
+
+        return false;
+      });
+
       return false;
     });
   })(jQuery);

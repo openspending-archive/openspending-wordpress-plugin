@@ -14,12 +14,19 @@ span.url {
     margin-left: -1px;
 }
 
-#dimensions, #chosen-dimensions {
+#dimensions, #chosen-dimensions, #years {
     margin-bottom: 4px;
 }
 
-span.dimension-label {
-    background: #dddddd;
+a.possible-year {
+    text-decoration: none;
+    padding: 2px;
+    margin: 2px;
+}
+
+span.dimension-label, a.possible-year.chosen {
+    background: #828282;
+    color: #fefefe;
     padding: 2px;
     margin: 2px;
 }
