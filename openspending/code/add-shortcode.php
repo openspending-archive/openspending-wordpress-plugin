@@ -160,6 +160,17 @@
                 possible_dimensions.push(dimension_link.join(''));
               });
 
+              // Sort the dimensions for the user
+              possible_dimensions.sort(function(a,b) {
+                // We sort them according to labels, not dimension.keys
+                var label_a = a.split('>')[1];
+                var label_b = b.split('>')[1];
+
+                if (label_a < label_b) return -1;
+                if (label_a > label_b) return 1;
+                return 0;
+              });
+
               // Add the possible dimensions along with a header to the page
               $dimensions.append('Choose dimensions in drilldown order<br/>');
               $dimensions.html(possible_dimensions.join(', '));
