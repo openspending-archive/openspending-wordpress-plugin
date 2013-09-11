@@ -252,14 +252,17 @@
               possible_years.push(year_link.join(''));
             });
 
-              // Add the possible dimensions along with a header to the page
-              $years.append('Click on the year to use<br/>');
-              $years.html(possible_years.join(' '));
-            })
-            .fail(function() { // Something went boo boo!
-              // Let the user know
-              $years.text('Could not fetch years for the dataset');
-            });
+            // Sort the years for better user experience
+            possible_years.sort()
+
+            // Add the possible dimensions along with a header to the page
+            $years.append('Click on the year to use<br/>');
+            $years.html(possible_years.join(' '));
+          })
+          .fail(function() { // Something went boo boo!
+            // Let the user know
+            $years.text('Could not fetch years for the dataset');
+          });
       }
       $('.possible-year').live('click', function(e) {
         var $year = $(this);
