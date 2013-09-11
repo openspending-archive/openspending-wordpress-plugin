@@ -60,6 +60,7 @@ class OpenSpending {
             'type' => null,
             'dataset' => null,
             'drilldowns' => null,
+            'year' => null,
 	), $atts ) );
 
         // Type, Dataset and Drilldowns must be defined
@@ -69,10 +70,14 @@ class OpenSpending {
         // Set variable that adds style and script to the page/post
         self::$add_style_and_script = true;
 
-        return "<div class=\"{$type}\" " .
-               "data-dataset=\"{$dataset}\" " .
-               "data-drilldowns=\"{$drilldowns}\" >" .
-               "</div>";
+        $div_open = "<div class=\"{$type}\"" .
+                    " data-dataset=\"{$dataset}\"" .
+                    " data-drilldowns=\"{$drilldowns}\"";
+        
+        if ( $year != null)
+            $div_open .= " data-year=\"{$year}\"";
+
+        return $div_open . "></div>";
     }
 
     // Register the stylesheet and javascript we might need to use
