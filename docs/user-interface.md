@@ -8,9 +8,11 @@ Click this button to add a visualisation. You will be prompted by a popup window
 
 ![OpenSpending configuration popup](openspending-popup-default.png)
 
-Choose your type of visualisation (at the moment only the treemap is supported) and type in the identifier for your dataset. The identifier you can get from the OpenSpending url.
+## Treemap (full walkthrough of interface)
 
-For example, if you're dataset lives at http://openspending.org/ukgov-finances-cra you would type in ukgov-finances-cra as the dataset.
+Choose your type of visualisation (treemap or bubbletree). Let's say you choose treemap. Now type in the identifier for your dataset. The identifier you can get from the OpenSpending url.
+
+For example, if your dataset lives at http://openspending.org/ukgov-finances-cra you would type in ukgov-finances-cra as the dataset.
 
 When you have filled in your dataset click on the button called *Fetch drilldowns*. This will get the available drilldown dimensions for you:
 
@@ -38,5 +40,32 @@ If you selected a year, there will be *year="2013"* in there somewhere. This is 
 
 Now you can publish your page or post and have a look. You'll see your visualisation added exactly where you want it to be:
 
-![Beautifully rendered OpenSpending visualisation](openspending-uk-treemap.png)
+![Beautifully rendered OpenSpending treemap](openspending-uk-treemap.png)
 
+## Bubbletree (short walkthrough)
+
+Alright, now if you want to create a bubbletree you do the same thing but choose bubbletree as a visualisation type:
+
+![Choosing bubbletree](openspending-bubbletree-chosen.png)
+
+Then fill in the dataset identifier as you do with the treemap and fetch the drilldowns. Here things get a bit more difficult.
+
+If you want a beautiful bubbletree with icons and colors (instead of grey bubbles with no icons) you need to use Cofog and this **must** be present in the dataset and it **must** be a compound dimension (each level).
+
+So when the dataset is created and modelled the there must be a compound dimension representing Cofog level 1. As a compound dimension it must map its *id* to the Cofog code, e.g. '09' for education, and the *label* must be the name of the category (e.g. 'The Environment' for id: 09).
+
+So both the id and the label **must** be fields in the original data source. We also recommend that you de-jargonize the cofog standard. Use words normal people understand, e.g. 'Helping Others' instead of 'Social protection'.
+
+You have to do the same for the other two levels of Cofog and the *id* must be the full Cofog code, e.g. '10.2' for the level 2 category 'Old age'.
+
+If your dataset has already done this for all three Cofog levels (might be less but that's not as granular) you then fetch the drilldowns and choose the cofog levels in order:
+
+![Cofog levels chosen](openspending-cofogs-chosen.png)
+
+Then you like described in the treemap tutorial you choose the year you want to look at and then add the visualisation. Just like with the treemap this will create a shortcode with all the essential information:
+
+![Bubbletree shortcode](openspending-bubbletree-shortcode.png)
+
+Now you can publish your page or post and have a look. A word of advice. The bubbletree changes the url for the rendering of levels and this can have unintended consequences. For example if there are two or more bubbletrees in a blog post or on a page they won't work (not in the list of blogs either). So take care when you use bubbletrees.
+
+![Beautifully rendered OpenSpending bubbletree](openspending-bosnia-bubbletree.png)
