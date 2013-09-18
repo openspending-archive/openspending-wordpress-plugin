@@ -44,3 +44,5 @@ If you would like to add a *treemap* for the dimensions *from* and *to* in the [
 ## Supported Visualisations
 
 * Treemap (type: "treemap")
+* Bubbletree (type: "bubbletree")
+    * Supported icons/colors for COFOG
