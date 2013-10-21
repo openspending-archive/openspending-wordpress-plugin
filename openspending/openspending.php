@@ -4,7 +4,7 @@ Plugin Name: OpenSpending
 Plugin URI: http://tryggvib.github.io/openspending-wordpress-plugin/
 Description: Easily add <a href="http://openspending.org" title="OpenSpending - Mapping the Money">OpenSpending</a> visualisations to your blog or pages using the openspending shortcode. This means that you can easily map the money by loading a dataset into <a href="http://openspending.org" title="OpenSpending - Mapping the Money">OpenSpending</a> (if it isn't already there) and dropping a shortcode into your WordPress!
 Author: Open Knowledge Foundation
-Version: 0.1
+Version: 0.4.1
 Author URI: http://okfn.org/
 License: GPLv2 or later
 */
