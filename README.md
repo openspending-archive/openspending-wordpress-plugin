@@ -46,3 +46,20 @@ If you would like to add a *treemap* for the dimensions *from* and *to* in the [
 * Treemap (type: "treemap")
 * Bubbletree (type: "bubbletree")
     * Supported icons/colors for COFOG
+
+## FAQ
+
+###How to change the color of the main bubbles in the bubble chart?
+This would require javascript overwrite. It would be difficult to add onto wordpress ui.
+
+###How to change line height of the bubble titles?
+Would require css overwrite. It would difficult to add onto wordpress ui.
+
+###How to display amounts in Millions instead of Billions?
+Would require javascript overwrite (is possible, but difficult to add onto wordpress ui)
+
+###How to change the assignment of bubble background images?
+Wordpress often stops users from adding javascripts files so it will require code changes to wordpress itself (or the theme)
+
+###How to add a secondary currency, like US dollars and have it be shown in the bubbles or in the pop-up window?
+Unfortunately you cannot do this at the moment in OpenSpending. This would need a customised improvement.You can however do a separate budget in USD dollars and visualise that.
