@@ -1,3 +1,7 @@
+# v0.4.2
+
+* Users with non-standard wordpress setup now won't have to muck about with any files
+
 # v0.4.1
 
 * Bug fix: Bubbletree can now work with non-string identified data
