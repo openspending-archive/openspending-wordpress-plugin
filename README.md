@@ -9,22 +9,6 @@ WordPress plugin to make openspendingjs visualisations easy to add to WordPress 
 2. Go to your admin panel, navigate to plugins, find OpenSpending and
    activate it.
 
-### Non-standard WordPress setup?
-
-If you have set WordPress up a bit differently, e.g. placed the wp-content directory someplace else you might have to help the plugin find *wp-load.php*.
-
-In the file:
-
-    wp-content/plugins/openspending/code/load-wordpress.php
-
-you will need to uncomment a line saying:
-
-    // define('WP_LOAD_PATH', '/path/to/wp-load.php');
-
-and put in the absolute path to wp-load.php
-
-This is only if you've done something special to your WordPress setup!
-
 ## How to Use
 
 The OpenSpending WordPress plugin operates using the standard WordPress *shortcodes*, namely:
