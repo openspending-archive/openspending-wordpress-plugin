@@ -42,6 +42,9 @@ class OpenSpending {
 
     // Set hooks for this plugin
     static function init() {
+        // Add popup asset hack to the init hook
+        add_action( 'init', array( __CLASS__, 'openspending_popup_assets' ) );
+
         // This plugin searches for the openspending shortcode which creates
         // as visualisation
         add_shortcode('openspending', array(__CLASS__, 'add_visualisation'));
@@ -132,6 +135,68 @@ class OpenSpending {
     static function add_plugin( $plugin_array ) {
         $plugin_array['openspending'] = plugins_url('openspending/js/openspending-mce.js');
         return $plugin_array;
+    }
+
+    // Function called on init to check if openspending asset should be served
+    // instead of the wordpress page itself. This is a "curvy" solution to the
+    // problem raised by the plugin where a the tinymce popup page is loaded
+    // with an iframe and wordpress functions aren't accessible. Instead of
+    // loading wordpress core files (which are not necessarily stored in the
+    // same location across wordpress instances) we make the assets available
+    // this way.
+    // This hack is based on a similar solution made by Marius Jensen (Clorith)
+    static function openspending_popup_assets() {
+        // We just check if the openspending-plugin-asset query variable is
+        // present (on any page served by wordpress)
+        if ( isset( $_GET['openspending-plugin-asset'] ) )
+        {
+            // If it is set the function must be one of these allowed functions
+            $allowed_funcs = array('spinner', 'tinymce', 'styles', 'scripts');
+            $func = $_GET['openspending-plugin-asset'];
+
+            // Check if it's allowed and if it is we serve plain text content
+            // where we call the class function (which prints out the asset)
+            // and then we die() to avoid loading the wordpress page
+            if ( in_array($func, $allowed_funcs) ) {
+                header( 'Content-Type: text/plain' );
+                call_user_func(array(__CLASS__, 'openspending_popup_' . $func));
+                die();
+            }
+        }
+    }
+
+    // The following methods (openspending_popup_*) print out assets
+    // available to the openspending tinymce popup
+
+    static function openspending_popup_spinner() {
+        // Spinner is the included wordpress spinner
+        echo includes_url('images/wpspin.gif');
+    }
+    static function openspending_popup_tinymce() {
+        // TinyMCE popup is the included one
+        echo includes_url('js/tinymce/tiny_mce_popup.js');
+    }
+    static function openspending_popup_styles() {
+        // We enqueue a few styles via the wordpress mechanism and tailor it
+        // to the user then we print it out, again with the help of wordpress
+
+        // Get the user's layout (for the colors)
+        global $user_ID;
+        $layout = get_user_meta($user_ID, 'admin_color', true);
+
+        // Enqueue the stylesheets and scripts we'll be needing
+        wp_enqueue_style( "colors-{$layout}" );
+        wp_enqueue_style( "buttons" );
+        wp_enqueue_style( 'ie' );
+        wp_enqueue_style( 'popup-specific',
+                          plugins_url('openspending/css/popup.css') );
+
+        do_action('admin_print_styles');
+    }
+    static function openspending_popup_scripts() {
+        // Load and print scripts (jquery) with the wordpress mechanism
+        wp_enqueue_script( 'jquery' );
+        do_action('admin_print_scripts');
     }
 }
 

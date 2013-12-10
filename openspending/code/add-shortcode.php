@@ -15,30 +15,30 @@
       Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   */
 
-  // Load WordPress functions via the load-wordpress file
-  require_once( dirname(__FILE__) .'/load-wordpress.php');
-
-  // Get the user's layout (for the colors)
-  global $user_ID;
-  $layout = get_user_meta($user_ID, 'admin_color', true);
-
-  // Enqueue the stylesheets and scripts we'll be needing
-  wp_enqueue_style( "colors-{$layout}" );
-  wp_enqueue_style( "buttons" );
-  wp_enqueue_style( 'ie' );
-  wp_enqueue_style( 'popup-specific',
-                    plugins_url('openspending/css/popup.css') );
-  wp_enqueue_script( 'jquery' );
+  // This function takes care of loading the assets from WordPress via a
+  // request to the site with a special query variable. The plugin itself
+  // checks for this query variable and makes WordPress return the asset
+  // if the plugin has defined it. To print the value it's enough to just
+  // call print_asset('spinner'); to get the spinner asset (url to spinner)
+  function print_asset($asset)
+  {
+    // The request submits the query var to the same server so we construct
+    // the server protocol and name from the $_SERVER variable (we use
+    // HTTP_HOST to include port number if there is one
+    $home = ($_SERVER['HTTPS'] ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'];
+    // We print out the contents of the home page with the special plugin
+    // query variable (with value we pass in)
+    echo file_get_contents($home . '/?openspending-plugin-asset=' . $asset);
+  }
 ?>
 <!DOCTYPE html>
 <head>
   <title>OpenSpending - Add your visualisation</title>
-  <?php do_action('admin_print_styles'); ?>
-  <?php do_action('admin_print_scripts'); ?>
-  <script type="text/javascript" src="<?php echo includes_url('js/tinymce/tiny_mce_popup.js'); ?>"></script>
+  <?php print_asset('styles'); ?>
+  <?php print_asset('scripts'); ?>
+  <script type="text/javascript" src="<?php print_asset('tinymce'); ?>"></script>
 </head>
 <body class="wp-core-ui">
-
 <form id="openspending-shortcode">
   <p>
     <span class="type">
@@ -134,7 +134,7 @@
     $drilldown_fetcher.click(function(e) {
       // We add a spinner/loading gif to dimensions (to show we're working)
       var $dimensions = $('#dimensions');
-      $dimensions.html('<img src="<?php echo includes_url('images/wpspin.gif'); ?>">');
+      $dimensions.html('<img src="<?php print_asset('spinner'); ?>">');
 
       // Get the dataset, if the dataset field is empty (for example if the user
       // pressed the deactivated button) we tell the user, no dataset was
@@ -146,7 +146,7 @@
       // But if it has been supplied, we go out and fetch it's dimensions
       else {
         // Get the dimension via a specific call to openspending.org
-        $.getJSON('http://openspending.org/'+dataset+'/dimensions.json')
+        $.getJSON('https://openspending.org/'+dataset+'/dimensions.json')
           .done(function(data) { // Successful fetching
              // Disable the fetching button (it's been used)
             $drilldown_fetcher.addClass('button-disabled');
@@ -232,7 +232,7 @@
     $year_fetcher.click(function(e) {
       // We add a spinner/loading gif to years (to show we're working)
       var $years = $('#years');
-      $years.html('<img src="<?php echo includes_url('images/wpspin.gif'); ?>">');
+      $years.html('<img src="<?php print_asset('spinner'); ?>">');
 
       // Get the dataset, if the dataset field is empty (for example if the user
       // pressed the deactivated button) we tell the user, no dataset was
@@ -243,7 +243,7 @@
       }
       else {
         // Get the dimension via a specific call to openspending.org
-        $.getJSON('http://openspending.org/'+dataset+'/time.distinct')
+        $.getJSON('https://openspending.org/'+dataset+'/time.distinct')
           .done(function(data) { // Successful fetching
             // Disable the fetching button (it's been used)
             $year_fetcher.addClass('button-disabled');
