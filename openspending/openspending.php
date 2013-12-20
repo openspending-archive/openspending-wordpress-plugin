@@ -76,6 +76,9 @@ class OpenSpending {
         $div_open = "<div class=\"{$type}\"" .
                     " data-dataset=\"{$dataset}\"" .
                     " data-drilldowns=\"{$drilldowns}\"";
+
+        // We try to do automatic inflation based on the previous year
+        $div_open .= " data-inflate=\"" . (date("Y")-1) ."\"" .
         
         if ( $year != null)
             $div_open .= " data-year=\"{$year}\"";
