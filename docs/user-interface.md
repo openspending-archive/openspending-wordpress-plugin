@@ -69,3 +69,21 @@ Then you like described in the treemap tutorial you choose the year you want to 
 Now you can publish your page or post and have a look. A word of advice. The bubbletree changes the url for the rendering of levels and this can have unintended consequences. For example if there are two or more bubbletrees in a blog post or on a page they won't work (not in the list of blogs either). So take care when you use bubbletrees.
 
 ![Beautifully rendered OpenSpending bubbletree](openspending-bosnia-bubbletree.png)
+
+## Bar chart (shorter walkthrough)
+
+Do you want time series? Choose the bar chart visualisations just like you choose the other visualisation types (described above).
+
+When you get to the drilldowns, choose the dimension that represents time (in this case *Año*):
+
+![Choose the time dimension](openspending-time-chosen.png)
+
+Don't choose a specific year, and voila! You will now have a time series (which are inflated automatically if OpenSpending has inflation data for the years in your dataset).
+
+![Time series](openspending-time-series.png)
+
+Here's a tip: If your dataset doesn't define exact dates, i.e. it just says *2012* and not *2012-04-22*, OpenSpending will internally refer to it as January 1st that year. The time series will show the full date. If you want to only show the year you can swap *year* instead of *time* in *\[opensending type=... drilldowns=...\]. That way you'll only show the year.
+
+You don't have to use the bar charts for time series, you can also use it to visualise any dimensions of your data with bars. For example, changing our time series to work on *cofog* dimensions we get a bar chart that reminds us of the bubble tree.
+
+![Cofog bar chart](openspending-cofog-barchart.png)
